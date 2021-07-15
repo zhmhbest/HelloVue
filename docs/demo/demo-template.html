@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Template</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>没有模板</h1><div class="demo">
+<div id="el_no_template"><B>{{msg}}</B></div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_no_template",  // 设置挂载点：绑定ID
+            data: {
+                msg: "Hello World!"
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>使用模板</h1><div class="demo">
+<div id="el_has_template"></div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_has_template",
+            template: "<B>{{msg}}</B>",
+            data: {
+                msg: "Hello World!"
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

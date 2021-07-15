@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Router</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>Router</h1><div class="demo">
+<script src="static/lib/vue-router.js"></script>
+<div id="el_router">
+    <ul>
+        <li><router-link to="/router_mount1">Go to 1</router-link></li>
+        <li><router-link to="/router_mount2">Go to 2</router-link></li>
+    </ul>
+
+    <!-- 路由出口 -->
+    <!-- 路由匹配到的组件将渲染在这里 -->
+    <router-view></router-view>
+</div>
+<script>
+    // 1.定义路由内容
+    const routerObj1 = { template: "<div>路由1内容</div>" };
+    const routerObj2 = { template: "<div>路由2内容</div>" };
+    // 2.配置路由挂载点
+    const routersMounts = [
+        { path: '/router_mount1', component: routerObj1 },
+        { path: '/router_mount2', component: routerObj2 },
+    ];
+    // 3.创建路由实例
+    const router = new VueRouter({
+        routes: routersMounts
+    });
+    // 4.App
+    finalRun(() => {
+        new Vue({
+            el: "#el_router",
+            router
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

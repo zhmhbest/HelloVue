@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Vuex</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>Vuex</h1><div class="demo">
+<script src="static/lib/vuex.js"></script>
+<div id="el_vuex1" @click="onclick">{{$store.state.count}}</div>
+<div id="el_vuex2" @click="onclick">{{$store.state.count}}</div>
+<script>
+    const store = new Vuex.Store({
+        state: {
+            count: 1
+        },
+        mutations: {
+            increment (state) {
+                state.count++
+            }
+        }
+    });
+    finalRun(() => {
+        // 多组件协同
+        new Vue({
+            el: "#el_vuex1",
+            store,
+            methods: {
+                onclick: function() {
+                    this.$store.commit('increment');
+                }
+            }
+        });
+        new Vue({
+            el: "#el_vuex2",
+            store,
+            methods: {
+                onclick: function() {
+                    this.$store.commit('increment');
+                }
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

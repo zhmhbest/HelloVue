@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Control</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1><code>v-show</code></h1><div class="demo">
+<div id="el_control_show">
+    <!-- 当控件被隐藏时，控件仍然停留在内存中没有被销毁 -->
+    <p v-show="isShow" style="background-color: darkcyan;">控件0</p>
+    <p v-show="!isShow" style="background-color: darkviolet;">控件1</p>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_control_show",
+            data: {
+                isShow: true
+            },
+            mounted: function () {
+                setInterval(() => {
+                    this.isShow = !this.isShow;
+                }, 1000);
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1><code>v-if</code></h1><div class="demo">
+<div id="el_control_if">
+    <!-- 当控件不可见时，控件已被彻底销毁 -->
+    <p v-if="0===showWay" style="background-color: red;">控件0</p>
+    <p v-else-if="1===showWay" style="background-color: green;">控件1</p>
+    <p v-else style="background-color:blue;">控件2</p>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_control_if",
+            data: {
+                showWay: 0
+            },
+            mounted: function () {
+                setInterval(() => {
+                    if (2 === this.showWay) {
+                        this.showWay = 0;
+                    } else {
+                        this.showWay = 1 + this.showWay;
+                    }
+                }, 1000);
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1><code>v-for</code></h1><div class="demo">
+<div id="el_control_for">
+    <ul><li v-for="item of list" :key="item">{{item}}</li></ul>
+    <ul><li v-for="(item, index) of list" :key="item">{{index}} {{item}}</li></ul>
+    <ul><li v-for="index of 3" :key="index">{{index}}</li></ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_control_for",
+            data: {
+                list: ['中国', '日本', '韩国', '俄罗斯', '美国']
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Ajax</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>Axios</h1><div class="demo">
+<script src="static/lib/axios.js"></script>
+<div id="el_ajax_axios">
+    <p v-html="html"></p>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: '#el_ajax_axios',
+            data: {
+                html: '等待请求'
+            },
+            mounted: function () {
+                const __this__ = this;
+                axios.get('static/ajax_success.html').then(function (res) {
+                    __this__.html = res.data;
+                }).catch(function (reason) {
+                    __this__.html = reason;
+                });
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>Vue Resource</h1><div class="demo">
+<script src="static/lib/vue-resource.js"></script>
+<div id="el_ajax_resource">
+    <p v-html="html"></p>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: '#el_ajax_resource',
+            data: {
+                html: '等待请求'
+            },
+            mounted: function () {
+                const __this__ = this;
+                this.$http.get('static/ajax_success.html').then(function (res) {
+                    __this__.html = res.data;
+                }, function (reason) {
+                    __this__.html = reason.data;
+                });
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

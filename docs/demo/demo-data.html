@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Data</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+    <!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>监听变量</h1><div class="demo">
+<div id="el_data_watch">
+    <input type="text" v-model="value"/><p>改变了 {{count}} 次得到“{{value}}”。</p>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_data_watch",
+            data: {
+                value: '',
+                count: 0
+            },
+            watch: {
+                value: function () {
+                    this.count++; // 计算value改变的次数
+                }
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>计算属性</h1><div class="demo">
+<div id="el_data_compute">
+    <ul>
+        <li><label>X1：<input type="number" v-model.number="x1"/></label></li>
+        <li><label>X2：<input type="number" v-model.number="x2"/></label></li>
+        <li>表达式法: X1 + X2 = {{x1 + x2}}</li>
+        <li>计算属性: X1 + X2 = {{sum_x1_x2}}</li>
+        <li>复合计算: AVG(X1, X2) = {{avg_x1_x2}}</li>
+        <!-- <li><label>X3：<input type="number" v-model.number="x3"/></label></li> -->
+    </ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_data_compute",
+            data: {
+                x1: 0,
+                x2: 0,
+                x3: 0
+            },
+            watch: {
+                x1: function () {
+                    this.avg_x1_x2 = this.x1 + this.x2;
+                },
+                x2: function () {
+                    this.avg_x1_x2 = this.x1 + this.x2;
+                }
+            },
+            computed: {
+                // 简单计算属性
+                sum_x1_x2: function () {
+                    return this.x1 + this.x2;
+                },
+                // 复合计算属性
+                avg_x1_x2: {
+                    set: function (val) {
+                        this.x3 = val / 2;
+                    },
+                    get: function () {
+                        return this.x3;
+                    }
+                }
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

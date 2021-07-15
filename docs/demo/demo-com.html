@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Component</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>Component</h1><div class="demo">
+<div id="el_component">
+    <template v-for="(item, index) of list">
+        <com-public-card :title="'public' + item.title" :content="item.content" @event_click="onCardClick(index)"></com-public-card>
+        <com-private-card :title="'private' + item.title" :content="item.content" @event_click="onCardClick(index)"></com-private-card>
+    </template>
+</div>
+<script>
+    // 局部组件
+    const comCard = {
+        // 组建接受的属性值
+        props: ['title', 'content'],
+        template: "<div @click='divEventClick'><B>{{title}}</B><p v-html='content'></p></div>",
+        methods: {
+            divEventClick: function () {
+                // 事件名字不能使用驼峰命名
+                // 模板Click事件触发 => 触发属性event_click绑定的外部事件
+                this.$emit('event_click');
+            }
+        }
+    };
+    // 全局组件
+    Vue.component('com-public-card', comCard);
+</script>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_component",
+            // 引入局部组建，全局不需要在此处引入。
+            components: {
+                // 组建标签名称: 组建
+                'com-private-card': comCard
+            },
+            data: {
+                list: [
+                    {
+                        title: '标题1',
+                        content: '内容11<br>内容12'
+                    }, {
+                        title: '标题2',
+                        content: '内容21<br>内容22'
+                    }
+                ]
+            },
+            methods: {
+                onCardClick: function (index) {
+                    alert(this.list[index].title);
+                }
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

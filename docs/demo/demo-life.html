@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Life Cycle</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>生命周期</h1><div class="demo">
+<div id="el_life"><life v-if="0 !== times" :times="times"/></div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_life",
+            components: {
+                // 这是一个局部组件
+                'life': {
+                    props: ['times'],
+                    template: "<div>{{times}}</div>",
+                    beforeCreate: function () {
+                        console.log("beforeCreate: data、methods、computed、watch等还未初始化。");
+                    },
+                    created: function () {
+                        console.log("created: 在此处初始化data。");
+                    },
+                    beforeMount: function () {
+                        console.log("beforeMount: 已根据data和template实际生成了html。");
+                    },
+                    mounted: function () {
+                        console.log("mounted: 此方法仅执行一次，此处可做一些Ajax操作。");
+                    },
+                    beforeUpdate: function () {
+                        console.log("beforeUpdate: 此时修改data不会触发重新渲染。");
+                    },
+                    updated: function () {
+                        console.log("updated: 尽量避免在此处修改data。");
+                    },
+                    beforeDestroy: function () {
+                        console.log("beforeDestroy: 清除定时器和监听事件。");
+                    },
+                    destroyed: function () {
+                        console.log("destroyed");
+                    }
+                }
+            },
+            data: {
+                times: 3
+            },
+            created: function () {
+                this.times--;
+            },
+            mounted: function () {
+                setTimeout(() => {
+                    this.times--;
+                }, 1000);
+                setTimeout(() => {
+                    this.times--;
+                }, 2000);
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>

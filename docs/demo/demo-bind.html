@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Bind</title>
+    <script src="static/codeview.js"></script>
+    <script src="static/lib/vue.js"></script>
+</head>
+<body>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>绑定内容</h1><div class="demo">
+<div id="el_bind_content">
+    <ul>
+        <li v-text="content"></li>
+        <li v-html="content"></li>
+    </ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_bind_content",
+            data: {
+                content: "<I>Context Text</I>"
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>绑定属性</h1><div class="demo">
+<style>
+    .testClass {
+        color: #69bb51;
+    }
+</style>
+<div id="el_bind_attr">
+    <ul>
+        <li>绑定Value<progress v-bind:value="value1" max="10"></progress></li>
+        <li>绑定Value<progress :value="value1" max="10"></progress></li>
+        <li><span v-bind:style="style1">绑定Style</span></li>
+        <li><span :style="style1">绑定Style</span></li>
+        <li><span v-bind:class="class1">绑定Class</span></li>
+        <li><span :class="class1">绑定Class</span></li>
+    </ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_bind_attr",
+            data: {
+                value1: 0,
+                style1: {
+                    'color': ''
+                },
+                class1: {
+                    'testClass': false
+                }
+            },
+            mounted: function () {
+                setInterval(() => {
+                    if (this.value1 % 2) {
+                        this.style1['color'] = '';
+                        this.class1['testClass'] = false;
+                    } else {
+                        this.style1['color'] = 'hotpink';
+                        this.class1['testClass'] = true;
+                    }
+                    if (10 === this.value1++) {
+                        this.value1 = 0;
+                    }
+                }, 500);
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>双向绑定</h1><div class="demo">
+<div id="el_bind_double">
+    <ul>
+        <li>一般双向: <input type="text" v-model="value"/>={{value}}</li>
+        <li>延迟双向: <input type="text" v-model.lazy="value_lazy"/>={{value_lazy}}</li>
+        <li>限定数值: <input type="number" v-model.number="value_number"/>={{value_number}}</li>
+        <li>去除空格: <input type="text" v-model.trim="value_trim"/>={{value_trim}}</li>
+    </ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_bind_double",
+            data: {
+                value: "Hello",
+                value_lazy: "",
+                value_number: 0,
+                value_trim: ''
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<h1>绑定方法</h1><div class="demo">
+<style>
+    .clickSimple {
+        background-color: skyblue;
+    }
+    .clickOnce {
+        background-color: hotpink;
+    }
+    .clickHook {
+        background-color: yellow;
+    }
+    .clickDeliverParent {
+        background-color: gray;
+    }
+    .clickDeliverChild {
+        background-color: lightseagreen;
+    }
+</style>
+<div id="el_bind_method">
+<ul>
+    <li><button v-on:click="popMsg('Simple')" class="clickSimple">一般绑定</button></li>
+    <li><button @click="popMsg('Simple')" class="clickSimple">一般绑定</button></li>
+    <!--  -->
+    <li><button v-on:click.once="popMsg('Once')" class="clickOnce">单次触发</button></li>
+    <li><button @click.once="popMsg('Once')" class="clickOnce">单次触发</button></li>
+    <!--  -->
+    <li>
+        <button
+            v-on:click.prevent="popMsg('Before')"
+            v-on:click="popMsg('Main')"
+            v-on:click.stop="popMsg('After')"
+            class="clickHook">事前事后</button>
+    </li>
+    <li>
+        <button
+            @click.prevent="popMsg('Before')"
+            @click="popMsg('Main')"
+            @click.stop="popMsg('After')"
+            class="clickHook">事前事后</button>
+    </li>
+    <!--  -->
+    <li>
+        <span
+            v-on:click.self="popMsg('Parent')"
+            class="clickDeliverParent">
+            父<span v-on:click="popMsg('Child')" class="clickDeliverChild">子</span>父
+        </span>
+    </li>
+    <li>
+        <span
+            @click.self="popMsg('Parent')"
+            class="clickDeliverParent">
+            父<span @click="popMsg('Child')" class="clickDeliverChild">子</span>父
+        </span>
+    </li>
+</ul>
+</div>
+<script>
+    finalRun(() => {
+        new Vue({
+            el: "#el_bind_method",
+            data: {
+                eventName: "????",
+            },
+            methods: {
+                popMsg: function (msg) {
+                    window.alert(msg);
+                }
+            }
+        });
+    });
+</script>
+</div><div class="view"></div>
+
+<!-- ■■■■■■■■ ■■■■■■■■ ■■■■■■■■ ■■■■■■■■-->
+
+<script src="static/autoid.js"></script>
+</body>
+</html>
