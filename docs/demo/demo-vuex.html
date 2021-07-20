@@ -12,17 +12,39 @@
 
 <h1>Vuex</h1><div class="demo">
 <script src="static/lib/vuex.js"></script>
-<div id="el_vuex1" @click="onclick">{{$store.state.count}}</div>
-<div id="el_vuex2" @click="onclick">{{$store.state.count}}</div>
+<div id="el_vuex1" style="background-color:cadetblue"  @click="onclick">click+1: ×1={{$store.state.count}}</div>
+<div id="el_vuex2" style="background-color:darkorchid" @click="onclick">click+2: ×1={{$store.state.count}}</div>
+<div id="el_vuex3" style="background-color:dimgray"    @click="onclick">click+1: ×2={{$store.getters.double}}</div>
 <script>
     const store = new Vuex.Store({
+        // state{} 类似于 data{}
         state: {
             count: 1
         },
-        mutations: {
-            increment (state) {
-                state.count++
+        // getters{} 类似于 computed{}
+        getters: {
+            double(state) {
+                return state.count * 2;
             }
+        },
+        // （同步过程）通过 commit 调用 mutation 来修改数据
+        mutations: {
+            increment(state) {
+                state.count++;
+            },
+            incrementNum(state, num) {
+                state.count += num;
+            }
+        },
+        // （异步过程）通过 dispatch 调用 action 来修改数据
+        actions: {
+            increment({ commit }) {
+                commit('increment');
+            }
+        },
+        // 对于复杂应用，可将 store 按模块存储
+        // 每个模块都有完整的（state、getters、mutations、actions）
+        modules: {
         }
     });
     finalRun(() => {
@@ -41,7 +63,16 @@
             store,
             methods: {
                 onclick: function() {
-                    this.$store.commit('increment');
+                    this.$store.commit('incrementNum', 2);
+                }
+            }
+        });
+        new Vue({
+            el: "#el_vuex3",
+            store,
+            methods: {
+                onclick: function() {
+                    this.$store.dispatch('increment');
                 }
             }
         });
