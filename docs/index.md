@@ -43,3 +43,4 @@ a {
 - [Ajax](demo/demo-ajax.html)
 - [Router](demo/demo-router.html)
 - [Vuex](demo/demo-vuex.html)
+- [Ref](demo/demo-ref.html)
